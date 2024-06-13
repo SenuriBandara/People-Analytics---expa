@@ -136,7 +136,7 @@ export default function Export() {
                                     </div>
                                 </div>
                                 <button
-                                    className={`${loading ? 'bg-yellow hover:opacity-100 hover:cursor-progress' : 'bg-aiesec-blue'} p-1 px-3 rounded-md text-white font-bold flex flex-col
+                                    className={`${loading ? 'bg-yellow hover:opacity-100 hover:cursor-progress' : 'bg-aiesec-blue'} p-1 px-3 rounded-sm text-white font-bold flex flex-col
                                             items-center justify-center w-24 h-8
                                             disabled:bg-amber-50 disabled:hover:opacity-100
                                             hover:opacity-75 transition-all`}
@@ -154,7 +154,7 @@ export default function Export() {
                         <div className={`text-xs text-gray opacity-50`}>{url}</div>
                         <div className={`flex flex-row justify-between pt-5`}>
                             <div className={`flex flex-row space-x-5`}>
-                                <a className={`flex flex-col items-center justify-center bg-green p-1 px-3 rounded-md text-white font-bold transition-all hover:opacity-75`}
+                                <a className={`flex flex-col items-center justify-center bg-green p-1 px-3 rounded-sm text-white font-bold transition-all hover:opacity-75`}
                                    href={downloadUrl} download="performance-analytics.csv">
                                     <div className={`flex flex-col items-center justify-center`}>
                                         <div>Download CSV</div>
@@ -163,7 +163,7 @@ export default function Export() {
                                         </div>
                                     </div>
                                 </a>
-                                <a className={`bg-green p-1 px-3 rounded-md text-white font-bold transition-all hover:opacity-75 cursor-pointer`}
+                                <a className={`bg-green p-1 px-3 rounded-sm text-white font-bold transition-all hover:opacity-75 cursor-pointer`}
                                    onClick={copyToClipBoard}>
                                     <div className={`flex flex-col items-center justify-center`}>
                                     <div>Copy to clipboard</div>
@@ -171,7 +171,7 @@ export default function Export() {
                                     </div>
                                 </a>
                             </div>
-                            <div className={`flex bg-gray p-1 px-3 rounded-md text-white font-bold transition-all hover:opacity-75 cursor-pointer items-center justify-center`}
+                            <div className={`flex bg-gray p-1 px-3 rounded-sm text-white font-bold transition-all hover:opacity-75 cursor-pointer items-center justify-center`}
                                onClick={tryAgain}>Try again
                             </div>
                         </div>
