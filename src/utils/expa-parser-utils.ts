@@ -32,11 +32,8 @@ export function parseFilters(url: string): Filter {
 	
 	if (url.includes("filters[products]")) {
 		const productParams = url.split("filters[products]=")[1].split("&")[0];
-		console.log(productParams);
 		const decoded = decodeURIComponent(productParams);
-		console.log(decoded);
 		filter.products = decoded.split(",");
-		console.log(filter.products);
 		filter.products.sort(function (a,b){
 			return PRODUCTS_ORDER.indexOf(a) - PRODUCTS_ORDER.indexOf(b)
 		});
@@ -47,8 +44,8 @@ export function parseFilters(url: string): Filter {
 	
 	if (url.includes("filters[status]")) {
 		const statusParams = url.split("filters[status]=")[1].split("&")[0];
-		const decoded = decodeURI(statusParams);
-		filter.statuses = decoded.split("/,|%2C/");
+		const decoded = decodeURIComponent(statusParams);
+		filter.statuses = decoded.split(",");
 		filter.statuses.sort(function (a,b){
 			return STATUSES_ORDER.indexOf(a) - STATUSES_ORDER.indexOf(b)
 		});
