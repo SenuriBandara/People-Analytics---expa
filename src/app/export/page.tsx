@@ -70,6 +70,7 @@ export default function Export() {
             setDownloadUrl(downloadUrl);
             setModified(false);
         }).catch((e) => {
+            console.error(e);
             setUrlError("An error occurred while fetching data. Please try again.")
             notifications.show({
                 title: "Error",
@@ -135,7 +136,7 @@ export default function Export() {
                                     </div>
                                 </div>
                                 <button
-                                    className={`${loading ? 'bg-yellow hover:opacity-100 hover:cursor-progress' : 'bg-aiesec-blue'} p-1 px-3 rounded-sm text-white font-bold flex flex-col
+                                    className={`${loading ? 'bg-yellow hover:opacity-100 hover:cursor-progress' : 'bg-aiesec-blue'} p-1 px-3 rounded-md text-white font-bold flex flex-col
                                             items-center justify-center w-24 h-8
                                             disabled:bg-amber-50 disabled:hover:opacity-100
                                             hover:opacity-75 transition-all`}
@@ -151,15 +152,28 @@ export default function Export() {
                 {dataAvailable && !modified && (
                     <div className={`flex flex-col space-y-5`}>
                         <div className={`text-xs text-gray opacity-50`}>{url}</div>
-                        <div className={`flex flex-row justify-between`}>
+                        <div className={`flex flex-row justify-between pt-5`}>
                             <div className={`flex flex-row space-x-5`}>
-                                <a className={`bg-green p-1 px-3 rounded-sm text-white font-bold transition-all hover:opacity-75`}
-                                   href={downloadUrl} download="performance-analytics.csv">Download CSV</a>
-                                <a className={`bg-green p-1 px-3 rounded-sm text-white font-bold transition-all hover:opacity-75 cursor-pointer`}
-                                   onClick={copyToClipBoard}>Copy to Clipboard</a>
+                                <a className={`flex flex-col items-center justify-center bg-green p-1 px-3 rounded-md text-white font-bold transition-all hover:opacity-75`}
+                                   href={downloadUrl} download="performance-analytics.csv">
+                                    <div className={`flex flex-col items-center justify-center`}>
+                                        <div>Download CSV</div>
+                                        <div className={`text-xs opacity-75 font-light`}>
+                                            for working with Excel
+                                        </div>
+                                    </div>
+                                </a>
+                                <a className={`bg-green p-1 px-3 rounded-md text-white font-bold transition-all hover:opacity-75 cursor-pointer`}
+                                   onClick={copyToClipBoard}>
+                                    <div className={`flex flex-col items-center justify-center`}>
+                                    <div>Copy to clipboard</div>
+                                        <div className={`text-xs opacity-75 font-light`}>for pasting to Google Sheets</div>
+                                    </div>
+                                </a>
                             </div>
-                            <a className={`bg-gray p-1 px-3 rounded-sm text-white font-bold transition-all hover:opacity-75 cursor-pointer`}
-                               onClick={tryAgain}>Try again</a>
+                            <div className={`flex bg-gray p-1 px-3 rounded-md text-white font-bold transition-all hover:opacity-75 cursor-pointer items-center justify-center`}
+                               onClick={tryAgain}>Try again
+                            </div>
                         </div>
                     
                     </div>
