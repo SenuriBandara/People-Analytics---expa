@@ -33,7 +33,7 @@ export function parseFilters(url: string): Filter {
 	if (url.includes("filters[products]")) {
 		const productParams = url.split("filters[products]=")[1].split("&")[0];
 		console.log(productParams);
-		const decoded = decodeURI(productParams);
+		const decoded = decodeURIComponent(productParams);
 		console.log(decoded);
 		filter.products = decoded.split(",");
 		console.log(filter.products);
