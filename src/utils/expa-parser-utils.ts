@@ -31,7 +31,7 @@ export function parseFilters(url: string): Filter {
 	filter.to = url.split("filters[time_period][to]=")[1].split("&")[0];
 	
 	if (url.includes("filters[products]")) {
-		filter.products = decodeURI(url.split("filters[products]=")[1].split("&")[0]).split(",");
+		filter.products = decodeURI(url.split("filters[products]=")[1].split("&")[0]).split("/,|%2C/");
 		filter.products.sort(function (a,b){
 			return PRODUCTS_ORDER.indexOf(a) - PRODUCTS_ORDER.indexOf(b)
 		});
@@ -41,7 +41,7 @@ export function parseFilters(url: string): Filter {
 	}
 	
 	if (url.includes("filters[status]")) {
-		filter.statuses = decodeURI(url.split("filters[status]=")[1].split("&")[0]).split(",");
+		filter.statuses = decodeURI(url.split("filters[status]=")[1].split("&")[0]).split("/,|%2C/");
 		filter.statuses.sort(function (a,b){
 			return STATUSES_ORDER.indexOf(a) - STATUSES_ORDER.indexOf(b)
 		});
