@@ -7,7 +7,7 @@ import {toTable} from "@/utils/table-utils";
 import {convert2DArrayToCSV} from "@/utils/csv-utils";
 
 export async function GET(request: NextRequest) {
-	const url = request.url;
+	const url = decodeURI(request.url);
 	const csvString = await start(url);
 	
 	const response = new NextResponse(csvString);
