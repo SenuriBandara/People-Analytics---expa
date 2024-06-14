@@ -3,7 +3,7 @@ import {Filter} from "@/types/types";
 export const STAGES_MAP = {
 	"OP": "Open",
 	"APP": "Applied",
-	"ACH": "Matched",
+	"ACH": "Accepted by Host",
 	"ACC": "Accepted",
 	"APD": "Approved",
 	"RRE": "Remote Realized",
