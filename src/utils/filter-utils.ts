@@ -6,6 +6,7 @@ export const STAGES_MAP = {
 	"ACH": "Matched",
 	"ACC": "Accepted",
 	"APD": "Approved",
+	"RRE": "Remote Realized",
 	"RE": "Realized",
 	"FI": "Finished",
 	"CO": "Completed"

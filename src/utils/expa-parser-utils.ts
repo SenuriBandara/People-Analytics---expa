@@ -5,12 +5,16 @@ const STAGES = {
 	APP: "applied",
 	ACH: "matched",
 	ACC: "an_accepted",
+	RRE: "remote_realized",
 	APD: "approved",
 	RE: "realized",
 	FI: "finished",
 	CO: "completed"
 }
 const PRODUCTS = {
+	"GV (old)": [1],
+	"GT": [2],
+	"GE": [5],
 	GV: [7],
 	GTa: [8],
 	GTe: [9],
@@ -20,8 +24,8 @@ const TYPES = {
 	OUTGOING: "o"
 }
 
-const PRODUCTS_ORDER = ["iGV", "iGTa", "iGTe", "oGV", "oGTa", "oGTe"];
-const STATUSES_ORDER = ["Open", "Applied", "Matched", "Accepted", "Approved", "Realized", "Finished", "Completed"];
+const PRODUCTS_ORDER = ["iGV (old)","iGV", "iGT", "iGE", "iGTa", "iGTe", "oGV (old)", "oGV", "oGT", "oGE", "oGTa", "oGTe"];
+const STATUSES_ORDER = ["Open", "Applied", "Matched", "Accepted", "Approved", "Remote Realized", "Realized", "Finished", "Completed"];
 
 export function parseFilters(url: string): Filter {
 	const filter = {} as Filter;
@@ -39,7 +43,7 @@ export function parseFilters(url: string): Filter {
 		});
 		
 	} else {
-		filter.products = PRODUCTS_ORDER;
+		filter.products = ["iGV", "iGTa", "iGTe", "oGV", "oGTa", "oGTe"];
 	}
 	
 	if (url.includes("filters[status]")) {
@@ -51,7 +55,7 @@ export function parseFilters(url: string): Filter {
 		});
 		
 	} else {
-		filter.statuses = STATUSES_ORDER;
+		filter.statuses = ["Open", "Applied", "Accepted by Host", "Accepted", "Approved", "Realized", "Finished", "Completed"];
 	}
 	
 	if (url.includes("filters[campaign_tag]")) {
