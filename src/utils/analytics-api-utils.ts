@@ -25,7 +25,7 @@ function constructUrl(filter: Filter) {
 	if (filter.workField) {
 		url += `&performance_v3%5Bsub_product_ids%5D[]=${filter.workField}`;
 	}
-	
+
 	return url;
 }
 

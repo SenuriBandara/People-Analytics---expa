@@ -41,7 +41,6 @@ export function parseFilters(url: string): Filter {
 		filter.products.sort(function (a,b){
 			return PRODUCTS_ORDER.indexOf(a) - PRODUCTS_ORDER.indexOf(b)
 		});
-		
 	} else {
 		filter.products = ["iGV", "iGTa", "iGTe", "oGV", "oGTa", "oGTe"];
 	}
@@ -53,7 +52,6 @@ export function parseFilters(url: string): Filter {
 		filter.statuses.sort(function (a,b){
 			return STATUSES_ORDER.indexOf(a) - STATUSES_ORDER.indexOf(b)
 		});
-		
 	} else {
 		filter.statuses = ["Open", "Applied", "Accepted by Host", "Accepted", "Approved", "Realized", "Finished", "Completed"];
 	}
@@ -69,7 +67,14 @@ export function parseFilters(url: string): Filter {
 	if (url.includes("filters[work_field]")) {
 		filter.workField = url.split("filters[work_field]=")[1].split("&")[0];
 	}
-	
+
+	if (url.includes("[compare_with]")) {
+		filter.compare = {
+			to: url.split("filters[compare_with][to]=")[1].split("&")[0],
+			from: url.split("filters[compare_with][from]=")[1].split("&")[0],
+		}
+	}
+
 	if (url.includes("getPeople")) {
 		filter.getPeople = url.split("getPeople=")[1].split("&")[0] === "true";
 	} else {
@@ -82,6 +87,7 @@ export function parseFilters(url: string): Filter {
 		filter.getApplications = true;
 	}
 
+
 	return filter;
 }
 
@@ -90,14 +96,14 @@ export function parseData(data: any, offices: Office[], parent: string) {
 	const parentData = {};
 	//for each key in data
 	for (const key in data) {
-		//if key in number
+		//if key is number
 		if (!isNaN(Number(key))) {
 			const office = offices.find(office => office.id === key)?.name;
 			if (!office) continue;
 			
 			console.log(`Processing data for ${office}`);
 			const officeData = data[key];
-			
+
 			// @ts-ignore
 			result[office] = parseOfficeData(officeData);
 		} else {

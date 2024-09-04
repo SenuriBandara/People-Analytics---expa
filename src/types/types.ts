@@ -9,6 +9,10 @@ export type Filter = {
 	workField?: string;
 	getPeople: boolean;
 	getApplications: boolean;
+	compare?: {
+		from: string;
+		to: string;
+	}
 }
 
 export type Office = {

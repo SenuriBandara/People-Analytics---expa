@@ -4,8 +4,10 @@ export function convert2DArrayToCSV(array: string[][]): string {
 	return array.map(row => row.map(cell => `"${cell}"`).join(",")).join("\n");
 }
 
-export function writeCSVToFile(array: string[][], filename: string): void {
-	const csvString = convert2DArrayToCSV(array);
-	fs.writeFileSync(filename, csvString);
-}
 
+export function removeNaN(csvString: string): string {
+	let csvString2 = csvString;
+	csvString2 = csvString2 .replaceAll("NaN%", "-");
+	csvString2 = csvString2.replaceAll("Infinity%", "-");
+	return csvString2;
+}
