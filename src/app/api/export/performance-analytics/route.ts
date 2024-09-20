@@ -5,6 +5,7 @@ import {getOffices} from "@/utils/graphql-api-utils";
 import {filterData} from "@/utils/filter-utils";
 import {toCompareTable, toTable} from "@/utils/table-utils";
 import {convert2DArrayToCSV, removeNaN} from "@/utils/csv-utils";
+import {Filter, Office} from "@/types/types";
 
 export async function GET(request: NextRequest) {
 	const url = decodeURI(request.url);
@@ -21,35 +22,34 @@ async function start(url: string) {
 	
 	const filter = parseFilters(url);
 	console.log("Applying filters", filter);
-	
-	const data = await getData(filter);
 
 	const offices = await getOffices();
-	
-	const parent = offices.find(office => office.id === filter.entity)?.name!;
-	const parsedData = parseData(data, offices, parent);
-
-	const filteredData = filterData(parsedData, filter);
-
-	let compareFilteredData;
-	if (filter.compare) {
-		const compareData = await getData({
-			...filter,
-			from: filter.compare.from,
-			to: filter.compare.to,
-		});
-		const compareParsedData = parseData(compareData, offices, parent);
-		compareFilteredData = filterData(compareParsedData, filter);
-	}
 
 	let table;
 	if (filter.compare) {
-		table = toCompareTable(filteredData, compareFilteredData, filter);
+		const [data, compareData] = await Promise.all([
+			fetchParseAndFilterData(offices, filter),
+			fetchParseAndFilterData(offices, {
+				...filter,
+				from: filter.compare.from,
+				to: filter.compare.to,
+			})
+		]);
+
+		table = toCompareTable(data, compareData, filter);
 	} else {
-		table = toTable(filteredData, filter);
+		const data = await fetchParseAndFilterData(offices, filter);
+		table = toTable(data, filter);
 	}
 
-
 	return removeNaN(convert2DArrayToCSV(table));
+}
+
+async function fetchParseAndFilterData(offices: Office[], filter: Filter,) {
+	const data = await getData(filter);
+	const parent = offices.find(office => office.id === filter.entity)?.name!;
+	const parsedData = parseData(data, offices, parent);
+
+	return filterData(parsedData, filter);
 }
 
