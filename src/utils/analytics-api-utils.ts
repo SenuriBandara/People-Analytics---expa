@@ -2,7 +2,6 @@ import {Filter} from "@/types/types";
 
 const EXPA_ANALYTICS_ENDPOINT = "https://analytics.api.aiesec.org/";
 const PERFORMANCE_ANALYTICS = "v2/applications/analyze.json";
-const PEOPLE_ANALYTICS = "v2/people/analyze.json";
 
 export async function getData(filter: Filter) {
 	const url = constructUrl(filter);
@@ -30,3 +29,20 @@ function constructUrl(filter: Filter) {
 	return url;
 }
 
+const PEOPLE_ANALYTICS = "v2/applications/analyze.json";
+
+export async function getPeopleData(filter: Filter) {
+  const url = constructPeopleAnalyticsUrl(filter);
+  console.log(`Fetching people data from ${url}`);
+
+  const response = await fetch(url);
+  return response.json();
+}
+
+function constructPeopleAnalyticsUrl(filter: Filter) {
+  let url = `${EXPA_ANALYTICS_ENDPOINT}${PEOPLE_ANALYTICS}?access_token=${process.env.EXPA_ACCESS_TOKEN}&start_date=${filter.from}&end_date=${filter.to}&people_analytics%5Boffice_id%5D=${filter.entity}`;
+
+  // Add additional filters if needed
+
+  return url;
+}
