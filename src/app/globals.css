@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 3, 126, 243;
+  --background-start-rgb: 3, 126, 243;
+  --background-end-rgb: 3, 126, 243;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
