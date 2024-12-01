@@ -2,6 +2,7 @@ import {Filter} from "@/types/types";
 
 const EXPA_ANALYTICS_ENDPOINT = "https://analytics.api.aiesec.org/";
 const PERFORMANCE_ANALYTICS = "v2/applications/analyze.json";
+const PEOPLE_ANALYTICS = "v2/people/analyze.json";
 
 export async function getData(filter: Filter) {
 	const url = constructUrl(filter);
