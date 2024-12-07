@@ -27,6 +27,7 @@ async function start(url: string) {
   const data = await getPeopleData(filter);
   const parsedData = parsePeopleData(data);
   const table = peopleDataToTable(parsedData);
+  console.log("Fetched people analytics data:", data);
 
   return removeNaN(convert2DArrayToCSV(table));
 }
