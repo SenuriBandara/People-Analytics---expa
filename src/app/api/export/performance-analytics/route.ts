@@ -35,10 +35,13 @@ async function start(url: string) {
 				to: filter.compare.to,
 			})
 		]);
-
+        console.log("Fetched performance data:", data);
+        console.log("Fetched comparison data:", compareData);
 		table = toCompareTable(data, compareData, filter);
 	} else {
 		const data = await fetchParseAndFilterData(offices, filter);
+		console.log("Fetched performance data:", data);
+
 		table = toTable(data, filter);
 	}
 
