@@ -29,67 +29,63 @@ const STATUSES_ORDER = ["Open", "Applied", "Matched", "Accepted", "Approved", "R
 
 export function parseFilters(url: string): Filter {
 	const filter = {} as Filter;
-	
-	filter.entity = url.split("filters[entity]=")[1].split("&")[0];
-	filter.from = url.split("filters[time_period][from]=")[1].split("&")[0];
-	filter.to = url.split("filters[time_period][to]=")[1].split("&")[0];
-	
-	if (url.includes("filters[products]")) {
-		const productParams = url.split("filters[products]=")[1].split("&")[0];
-		const decoded = decodeURIComponent(productParams);
-		filter.products = decoded.split(",");
-		filter.products.sort(function (a,b){
-			return PRODUCTS_ORDER.indexOf(a) - PRODUCTS_ORDER.indexOf(b)
-		});
+  
+	const urlParams = new URLSearchParams(url.split("?")[1]); // Extract query params
+  
+	// Parse the `entity` parameter
+	filter.entity = urlParams.get("filters[entity]") || "";
+  
+	// Parse date range
+	const signedUpFrom = urlParams.get("filters[signed_up_on][from]");
+	const signedUpTo = urlParams.get("filters[signed_up_on][to]");
+	const timePeriodFrom = urlParams.get("filters[time_period][from]");
+	const timePeriodTo = urlParams.get("filters[time_period][to]");
+  
+	filter.from = signedUpFrom || timePeriodFrom || "";
+	filter.to = signedUpTo || timePeriodTo || "";
+  
+	// Other filters can be added here if necessary
+	if (urlParams.has("filters[products]")) {
+	  const productParams = urlParams.get("filters[products]")!;
+	  filter.products = decodeURIComponent(productParams).split(",");
 	} else {
-		filter.products = ["iGV", "iGTa", "iGTe", "oGV", "oGTa", "oGTe"];
+	  filter.products = [];
 	}
-	
-	if (url.includes("filters[status]")) {
-		const statusParams = url.split("filters[status]=")[1].split("&")[0];
-		const decoded = decodeURIComponent(statusParams);
-		filter.statuses = decoded.split(",");
-		filter.statuses.sort(function (a,b){
-			return STATUSES_ORDER.indexOf(a) - STATUSES_ORDER.indexOf(b)
-		});
+  
+	if (urlParams.has("filters[status]")) {
+	  const statusParams = urlParams.get("filters[status]")!;
+	  filter.statuses = decodeURIComponent(statusParams).split(",");
 	} else {
-		filter.statuses = ["Open", "Applied", "Accepted by Host", "Accepted", "Approved", "Realized", "Finished", "Completed"];
+	  filter.statuses = [];
 	}
-	
-	if (url.includes("filters[campaign_tag]")) {
-		filter.campaignTag = parseInt(url.split("filters[campaign_tag]=")[1].split("&")[0]);
+  
+	if (urlParams.has("filters[campaign_tag]")) {
+	  filter.campaignTag = parseInt(urlParams.get("filters[campaign_tag]")!);
 	}
-	
-	if (url.includes("filters[duration_type]")) {
-		filter.durationType = url.split("filters[duration_type]=")[1].split("&")[0];
+  
+	if (urlParams.has("filters[duration_type]")) {
+	  filter.durationType = urlParams.get("filters[duration_type]")!;
 	}
-	
-	if (url.includes("filters[work_field]")) {
-		filter.workField = url.split("filters[work_field]=")[1].split("&")[0];
+  
+	if (urlParams.has("filters[work_field]")) {
+	  filter.workField = urlParams.get("filters[work_field]")!;
 	}
-
-	if (url.includes("[compare_with]")) {
-		filter.compare = {
-			to: url.split("filters[compare_with][to]=")[1].split("&")[0],
-			from: url.split("filters[compare_with][from]=")[1].split("&")[0],
-		}
+  
+	// Comparison filters
+	if (urlParams.has("filters[compare_with][to]")) {
+	  filter.compare = {
+		to: urlParams.get("filters[compare_with][to]")!,
+		from: urlParams.get("filters[compare_with][from]")!,
+	  };
 	}
-
-	if (url.includes("getPeople")) {
-		filter.getPeople = url.split("getPeople=")[1].split("&")[0] === "true";
-	} else {
-		filter.getPeople = true;
-	}
-	
-	if (url.includes("getApplications")) {
-		filter.getApplications = url.split("getApplications=")[1].split("&")[0] === "true";
-	} else {
-		filter.getApplications = true;
-	}
-
-
+  
+	// Feature toggles
+	filter.getPeople = urlParams.get("getPeople") === "true";
+	filter.getApplications = urlParams.get("getApplications") === "true";
+  
 	return filter;
-}
+  }
+  
 
 export function parseData(data: any, offices: Office[], parent: string) {
 	const result = {};
