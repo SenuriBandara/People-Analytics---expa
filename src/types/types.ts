@@ -13,6 +13,10 @@ export type Filter = {
 		from: string;
 		to: string;
 	}
+	backgrounds?: string; // or string[] if you expect multiple
+	department?: string;
+	role?: string;
+	status?: string; 
 }
 
 export type Office = {

@@ -82,7 +82,25 @@ export function parseFilters(url: string): Filter {
 	// Feature toggles
 	filter.getPeople = urlParams.get("getPeople") === "true";
 	filter.getApplications = urlParams.get("getApplications") === "true";
-  
+    // === NEW: Additional Position filters ===
+	if (urlParams.has("filters[backgrounds]")) {
+		filter.backgrounds = urlParams.get("filters[backgrounds]")!;
+	  }
+	  if (urlParams.has("filters[department]")) {
+		filter.department = urlParams.get("filters[department]")!;
+	  }
+	  if (urlParams.has("filters[role]")) {
+		filter.role = urlParams.get("filters[role]")!;
+	  }
+	
+	  // The "filters[status]" might contain a single "active" or "closed" 
+	  // or you might have it in filter.statuses array. 
+	  // If you want to store it separately as well:
+	  if (urlParams.has("filters[status]")) {
+		filter.status = urlParams.get("filters[status]")!;
+	  }
+	
+	  console.log("Parsed Filters:", filter);
 	return filter;
   }
   
